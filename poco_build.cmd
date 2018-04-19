@@ -14,14 +14,6 @@ for /f "usebackq tokens=1* delims=: " %%i in (`vswhere -latest -requires Microso
   if /i "%%i"=="installationPath" set LatestVS=%%j
 )
 
-rem Build x64
-REM IF EXIST "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat" (
-REM     call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
-REM     pushd "%MYDIR%poco"
-REM     call buildwin 140 build shared both x64 nosamples
-REM     call buildwin 140 build static_mt both x64 nosamples
-REM )
-
 set POCO_COMMON=build all both x64 samples tests
 
 pushd "%MYDIR%poco"
@@ -30,7 +22,6 @@ IF NOT "%LatestVS%"=="" (
 	call "%LatestVS%\VC\Auxiliary\Build\vcvarsall.bat" x64 8.1
     pushd "%MYDIR%poco"
     call buildwin 150 %POCO_COMMON% devenv
-
 ) ELSE (
 	IF NOT "%VS140COMNTOOLS%"=="" (
 		ECHO Visual Studio 2015
@@ -46,7 +37,7 @@ IF NOT "%LatestVS%"=="" (
 rem Build NuGet package
 cd ..
 IF NOT "%LatestVS%"=="" (
-	call nuget pack POCO-Basic-v150.nuspec -NoPackageAnalysis -NonInteractive
+	call nuget pack POCO-Basic-v141.nuspec -NoPackageAnalysis -NonInteractive
 ) ELSE (
 	IF NOT "%VS140COMNTOOLS%"=="" (
 		call nuget pack POCO-Basic-v140.nuspec -NoPackageAnalysis -NonInteractive
