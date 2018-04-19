@@ -10,28 +10,50 @@ IF NOT EXIST "poco" (
 )
 
 rem Only build basic components
-copy /Y components.txt poco\components
-
-rem Build x64
-IF EXIST "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat" (
-    call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
-    pushd "%MYDIR%poco"
-    call buildwin 150 build shared both x64 nosamples
-    call buildwin 150 build static_mt both x64 nosamples
+for /f "usebackq tokens=1* delims=: " %%i in (`vswhere -latest -requires Microsoft.Component.MSBuild`) do (
+  if /i "%%i"=="installationPath" set LatestVS=%%j
 )
 
-rem Build x86
-IF EXIST "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat" (
-    call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"
+rem Build x64
+REM IF EXIST "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat" (
+REM     call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+REM     pushd "%MYDIR%poco"
+REM     call buildwin 140 build shared both x64 nosamples
+REM     call buildwin 140 build static_mt both x64 nosamples
+REM )
+
+set POCO_COMMON=build all both x64 samples tests
+
+pushd "%MYDIR%poco"
+IF NOT "%LatestVS%"=="" (
+	set "VS150COMNTOOLS=%LatestVS%\Common7\Tools\"
+	call "%LatestVS%\VC\Auxiliary\Build\vcvarsall.bat" x64 8.1
     pushd "%MYDIR%poco"
-    call buildwin 150 build shared both Win32 nosamples
-    call buildwin 150 build static_mt both Win32 nosamples
+    call buildwin 150 %POCO_COMMON% devenv
+
+) ELSE (
+	IF NOT "%VS140COMNTOOLS%"=="" (
+		ECHO Visual Studio 2015
+		call "%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" x64 8.1
+		REM call buildwin 140 %POCO_COMMON% msbuild
+	) ELSE (
+		ECHO Visual Studio 2012
+		call "%VS110COMNTOOLS%\..\..\VC\vcvarsall.bat" x64 8.1
+		call buildwin 110 %POCO_COMMON% msbuild
+	)
 )
 
 rem Build NuGet package
 cd ..
-call nuget pack POCO-Basic.nuspec -NoPackageAnalysis -NonInteractive
-
+IF NOT "%LatestVS%"=="" (
+	call nuget pack POCO-Basic-v150.nuspec -NoPackageAnalysis -NonInteractive
+) ELSE (
+	IF NOT "%VS140COMNTOOLS%"=="" (
+		call nuget pack POCO-Basic-v140.nuspec -NoPackageAnalysis -NonInteractive
+	) ELSE (
+		call nuget pack POCO-Basic-v110.nuspec -NoPackageAnalysis -NonInteractive
+	)
+)	
 popd
 endlocal
 pause

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>finsec.poco-basic-windows-v140</id>
+        <version>1.8.0</version>
+        <title>POCO C++ Libraries Basic Edition (MSVC 14.0)</title>
+        <authors>Günter Obiltschnig, Aleksandar Fabijanic</authors>
+        <owners>Günter Obiltschnig, Aleksandar Fabijanic</owners>
+        <licenseUrl>https://pocoproject.org/license.html</licenseUrl>
+        <projectUrl>https://pocoproject.org/</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Modern, powerful open source C++ class libraries for building network- and internet-based applications that run on desktop, server, mobile and embedded systems.</description>
+        <releaseNotes>https://github.com/pocoproject/poco/blob/poco-1.8.0/CHANGELOG</releaseNotes>
+        <copyright>Copyright © 2006-2018 by Applied Informatics Software Engineering GmbH</copyright>
+        <language>en-US</language>
+        <tags>c c++ native windows portable class libraries framework x64 amd64</tags>
+    </metadata>
+    <files>
+        <file src="poco-basic.targets" target="build\native\finsec.poco-basic-windows-v140.targets" />
+
+        <!-- Include files -->
+        <file src="poco\Data\include\**" target="lib\native\include" />
+        <file src="poco\Foundation\include\**" target="lib\native\include" />
+        <file src="poco\JSON\include\**" target="lib\native\include" />
+        <file src="poco\Net\include\**" target="lib\native\include" />
+        <file src="poco\Util\include\**" target="lib\native\include" />
+        <file src="poco\XML\include\**" target="lib\native\include" />
+        <file src="poco\Net\include\**" target="lib\native\include" />
+        <file src="poco\Crypto\include\**" target="lib\native\include" />
+        <file src="poco\openssl\include\**" target="lib\native\include" />
+        <file src="poco\NetSSL_Win\include\**" target="lib\native\include" />
+		
+        <!-- Shared & Static lib files (x64) -->
+        <file src="poco\lib64\**" target="lib\native\lib64" />
+
+        <!-- DLL files (x64) -->
+        <file src="poco\bin64\**" target="build\native\x64" />
+    </files>
+</package>
+
