@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
-        <id>finsec.poco-basic-windows-v140</id>
-        <version>1.8.0</version>
-        <title>POCO C++ Libraries Basic Edition (MSVC 14.0)</title>
+        <id>finsec.poco-windows-v140</id>
+        <version>1.8.0.1</version>
+        <title>POCO C++ Libraries (MSVC 14.0)</title>
         <authors>Günter Obiltschnig, Aleksandar Fabijanic</authors>
         <owners>Günter Obiltschnig, Aleksandar Fabijanic</owners>
         <licenseUrl>https://pocoproject.org/license.html</licenseUrl>
@@ -16,10 +16,11 @@
         <tags>c c++ native windows portable class libraries framework x64 amd64</tags>
     </metadata>
     <files>
-        <file src="poco-basic.targets" target="build\native\finsec.poco-basic-windows-v140.targets" />
+        <file src="poco-basic.targets" target="build\native\finsec.poco-windows-v140.targets" />
 
         <!-- Include files -->
         <file src="poco\Data\include\**" target="lib\native\include" />
+        <file src="poco\Data\SQLite\include\**" target="lib\native\include" />
         <file src="poco\Foundation\include\**" target="lib\native\include" />
         <file src="poco\JSON\include\**" target="lib\native\include" />
         <file src="poco\Net\include\**" target="lib\native\include" />
