@@ -14,7 +14,7 @@ for /f "usebackq tokens=1* delims=: " %%i in (`vswhere -latest -requires Microso
   if /i "%%i"=="installationPath" set LatestVS=%%j
 )
 
-set POCO_COMMON=build all both x64 samples tests
+set POCO_COMMON=build all both x64 nosamples notests
 
 pushd "%MYDIR%poco"
 IF NOT "%LatestVS%"=="" (
